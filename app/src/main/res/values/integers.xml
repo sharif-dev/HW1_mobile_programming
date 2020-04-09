@@ -2,4 +2,5 @@
 <resources>
     <integer name="city_task_complete">22</integer>
     <integer name="weather_task_complete">23</integer>
+    <integer name="city_clicked">24</integer>
 </resources>

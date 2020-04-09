@@ -41,9 +41,9 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = "hw1_MainActivity";
 
     private Handler cityHandler;
-    private ThreadManager threadManager;
-    private List<City> cityList;
-    private CitiesAdapter citiesAdapter;
+    public ThreadManager threadManager;
+    List<City> cityList;
+    CitiesAdapter citiesAdapter;
     private ScheduledExecutorService searchExecutor = null;
     private ScheduledFuture scheduledSeacrh = null;
     private TextInputLayout citySearch;
@@ -61,13 +61,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        cityHandler = new Handler(Looper.getMainLooper()) {
-            @Override
-            public void handleMessage(@NonNull Message msg) {
-                super.handleMessage(msg);
-                MainActivity.this.handleReceivedMessage(msg);
-            }
-        };
+        cityHandler = new MainActivityHandler(Looper.getMainLooper(), this);
+
 
         threadManager = new ThreadManager(getCityHandler(), this);
 
@@ -76,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
         rvCities = findViewById(R.id.rvCities);
         cityList = new ArrayList<>();
-        citiesAdapter = new CitiesAdapter(cityList);
+        citiesAdapter = new CitiesAdapter(cityList, getCityHandler());
         rvCities.setAdapter(citiesAdapter);
         rvCities.setLayoutManager(new LinearLayoutManager(this));
 
@@ -109,40 +104,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void handleReceivedMessage(Message msg) {
-        Log.i(TAG, "msg received");
-        if (msg.what == R.integer.city_task_complete) {
-            if (msg.obj instanceof CitySearchResult) {
-                cityList.clear();
-                citiesAdapter.notifyDataSetChanged();
-                for (City c : ((CitySearchResult) msg.obj).cities) {
-                    Log.i(TAG, c.name + "--" + c.fullName);
-                    cityList.add(c);
-                    citiesAdapter.notifyItemInserted(cityList.size() - 1);
-                }
-                setLoading(false);
-            } else if (msg.obj instanceof String) {
-                if (((String) msg.obj).startsWith("Error")) {
-                    this.showErrorToUser((String) msg.obj);
-                }
-            }
-        } else if (msg.what == R.integer.weather_task_complete) {
-            if (msg.obj instanceof WeatherSearchResult) {
-                // TODO : receive weather informations
-            } else if (msg.obj instanceof String) {
-                if (((String) msg.obj).startsWith("Error")) {
-                    this.showErrorToUser((String) msg.obj);
-                }
-            }
-        } else if (msg.obj.equals("StartSearch")) {
-            String city = Objects.requireNonNull(citySearch.getEditText()).getText().toString();
-            if (!city.equals("")) {
-                threadManager.ExecuteCityRequest(city, getString(R.string.city_token));
-            }
-        }
-
+    public void goNextForm(City city) {
+        Log.i(TAG, city.fullName);
     }
-
 
     public void scheduleSearching(String cityName) {
         if (searchExecutor == null)
@@ -154,9 +118,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Runnable task = () -> {
-            Message msg = new Message();
-            msg.obj = "StartSearch";
-            getCityHandler().sendMessage(msg);
+            getCityHandler().sendMessage(DataMessage.makeDataMessage(DataMessage.MessageInfo.START_SEARCH, null));
         };
 
         this.scheduledSeacrh = searchExecutor.schedule(task, 200, TimeUnit.MILLISECONDS);
@@ -171,7 +133,11 @@ public class MainActivity extends AppCompatActivity {
         return cityHandler;
     }
 
-    private void setLoading(boolean loading) {
+    public String getSearchTextStr() {
+        return Objects.requireNonNull(citySearch.getEditText()).getText().toString();
+    }
+
+    void setLoading(boolean loading) {
         if (loading) {
             prg.setVisibility(View.VISIBLE);
             rvCities.setVisibility(View.INVISIBLE);

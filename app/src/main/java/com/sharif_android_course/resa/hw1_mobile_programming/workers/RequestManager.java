@@ -8,6 +8,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.sharif_android_course.resa.hw1_mobile_programming.DataMessage;
 import com.sharif_android_course.resa.hw1_mobile_programming.MainActivity;
 import com.sharif_android_course.resa.hw1_mobile_programming.R;
 import com.sharif_android_course.resa.hw1_mobile_programming.models.CitySearchResult;
@@ -36,17 +37,11 @@ public class RequestManager {
                     Gson gson = new Gson();
                     MainActivity.printThreadInfo("in response manager");
                     CitySearchResult searchResult = gson.fromJson(response.toString(), CitySearchResult.class);
-                    Message msg = new Message();
-                    msg.what = R.integer.city_task_complete;
-                    msg.obj = searchResult;
-                    mainHandler.sendMessage(msg);
+                    mainHandler.sendMessage(DataMessage.makeDataMessage(DataMessage.MessageInfo.CITY_TAKS_COMPLETE, searchResult));
                 },
                 error -> {
-                    Log.i(MainActivity.TAG ,("That didn't work! ") + error.getMessage());
-                    Message msg = new Message();
-                    msg.obj = "Error In Request Sending : \n" + error.toString();
-                    msg.what = R.integer.city_task_complete;
-                    mainHandler.sendMessage(msg);
+                    String err = "Error In Request Sending : \n" + error.getMessage();
+                    mainHandler.sendMessage(DataMessage.makeDataMessage(DataMessage.MessageInfo.ERROR, err));
                 });
         this.queue.add(jsonObjectRequest);
     }
@@ -58,17 +53,11 @@ public class RequestManager {
                 response -> {
                     Gson gson = new Gson();
                     WeatherSearchResult searchResult = gson.fromJson(response.toString(), WeatherSearchResult.class);
-                    Message msg = new Message();
-                    msg.what = R.integer.weather_task_complete;
-                    msg.obj = searchResult;
-                    mainHandler.sendMessage(msg);
+                    mainHandler.sendMessage(DataMessage.makeDataMessage(DataMessage.MessageInfo.WEATHER_TASK_COMPLETE, searchResult));
                 },
                 error -> {
-                    Log.i(MainActivity.TAG ,("That didn't work! ") + error.getMessage());
-                    Message msg = new Message();
-                    msg.obj = "Error In Request Sending : \n" + error.getMessage();
-                    msg.what = R.integer.weather_task_complete;
-                    mainHandler.sendMessage(msg);
+                    String err = "Error In Request Sending : \n" + error.getMessage();
+                    mainHandler.sendMessage(DataMessage.makeDataMessage(DataMessage.MessageInfo.ERROR, err));
                 });
         this.queue.add(jsonObjectRequest);
     }
