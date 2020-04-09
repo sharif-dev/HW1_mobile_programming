@@ -2,6 +2,8 @@
 
 mobile_dev course - Home Work 1
 
+an android app that provides a 7 day forecast of the weather
+
 ### Team Members:
 |        Name        | Student Number |
 |:-----------------:|:--------------:|
