@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">HW1_mobile_programming</string>
     <string name="sdf">ssdvsdvsdvsdvsvd</string>
+    <string name="city_token">pk.eyJ1Ijoic2FsZWhzYWdoYXJjaGkiLCJhIjoiY2s4c3NsY20yMDJmODNlcWl0emdieGViOCJ9.Xtjda-SoSq0g6sVNlh1Dtw</string>
+    <string name="weather_token">6d7607dbb2a84331acc133348200904</string>
+    <string name="city_url">https://api.mapbox.com/geocoding/v5/mapbox.places/%s.json?access_token=%s</string>
+    <string name="weather_url">https://api.weatherapi.com/v1/forecast.json?q=%s,%s&amp;key=%s&amp;days=%s</string>
 </resources>
