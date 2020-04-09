@@ -1,0 +1,232 @@
+{
+  "type": "FeatureCollection",
+  "query": [
+    "hamedan"
+  ],
+  "features": [
+    {
+      "id": "place.3588435711965580",
+      "type": "Feature",
+      "place_type": [
+        "place"
+      ],
+      "relevance": 1,
+      "properties": {},
+      "text": "Hamedan",
+      "place_name": "Hamedan, Hamadan, Iran",
+      "bbox": [
+        48.419838,
+        34.539146,
+        49.516045,
+        35.196565
+      ],
+      "center": [
+        48.9697,
+        35.0231
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          48.9697,
+          35.0231
+        ]
+      },
+      "context": [
+        {
+          "id": "region.10836970010853300",
+          "short_code": "IR-24",
+          "wikidata": "Q187373",
+          "text": "Hamadan"
+        },
+        {
+          "id": "country.5140206974398240",
+          "short_code": "ir",
+          "wikidata": "Q794",
+          "text": "Iran"
+        }
+      ]
+    },
+    {
+      "id": "region.10836970010853300",
+      "type": "Feature",
+      "place_type": [
+        "region"
+      ],
+      "relevance": 0.96,
+      "properties": {
+        "short_code": "IR-24",
+        "wikidata": "Q187373"
+      },
+      "text": "Hamadan",
+      "place_name": "Hamadan, Iran",
+      "matching_text": "Hamedan Eyaleti",
+      "matching_place_name": "Hamedan Eyaleti, Iran",
+      "bbox": [
+        47.580692028571,
+        33.989087030755,
+        49.5669289367113,
+        35.7474319637209
+      ],
+      "center": [
+        48.5146,
+        34.7982
+      ],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          48.5146,
+          34.7982
+        ]
+      },
+      "context": [
+        {
+          "id": "country.5140206974398240",
+          "short_code": "ir",
+          "wikidata": "Q794",
+          "text": "Iran"
+        }
+      ]
+    },
+    {
+      "id": "poi.34359820314",
+      "type": "Feature",
+      "place_type": [
+        "poi"
+      ],
+      "relevance": 0.928571,
+      "properties": {
+        "wikidata": "Q687436",
+        "address": "Plazza Aviatica 2",
+        "landmark": true,
+        "category": "airport",
+        "maki": "airport"
+      },
+      "text": "Samedan Airport",
+      "place_name": "Samedan Airport, Plazza Aviatica 2, Samedan, Graubünden 7503, Switzerland",
+      "center": [
+        9.881337,
+        46.5319475
+      ],
+      "geometry": {
+        "coordinates": [
+          9.881337,
+          46.5319475
+        ],
+        "type": "Point"
+      },
+      "context": [
+        {
+          "id": "postcode.14958368545851040",
+          "text": "7503"
+        },
+        {
+          "id": "place.14958368546056700",
+          "wikidata": "Q69085",
+          "text": "Samedan"
+        },
+        {
+          "id": "region.13177523355261260",
+          "short_code": "CH-GR",
+          "wikidata": "Q11925",
+          "text": "Graubünden"
+        },
+        {
+          "id": "country.19644899993437020",
+          "short_code": "ch",
+          "wikidata": "Q39",
+          "text": "Switzerland"
+        }
+      ]
+    },
+    {
+      "id": "poi.661425023408",
+      "type": "Feature",
+      "place_type": [
+        "poi"
+      ],
+      "relevance": 0.928571,
+      "properties": {
+        "landmark": true,
+        "address": "Zeytinler Köyü",
+        "category": "steakhouse, steak, restaurant"
+      },
+      "text": "Hanedan Restaurant",
+      "place_name": "Hanedan Restaurant, Zeytinler Köyü, Urla, Izmir, Turkey",
+      "center": [
+        26.549478,
+        38.287653
+      ],
+      "geometry": {
+        "coordinates": [
+          26.549478,
+          38.287653
+        ],
+        "type": "Point"
+      },
+      "context": [
+        {
+          "id": "place.12778750219730790",
+          "wikidata": "Q996670",
+          "text": "Urla"
+        },
+        {
+          "id": "region.7272800906498590",
+          "short_code": "TR-35",
+          "wikidata": "Q344490",
+          "text": "Izmir"
+        },
+        {
+          "id": "country.8502768370176230",
+          "short_code": "tr",
+          "wikidata": "Q43",
+          "text": "Turkey"
+        }
+      ]
+    },
+    {
+      "id": "poi.412316886542",
+      "type": "Feature",
+      "place_type": [
+        "poi"
+      ],
+      "relevance": 0.928571,
+      "properties": {
+        "landmark": true,
+        "address": "Beşiktaş",
+        "category": "nightclub, club, night club, disco"
+      },
+      "text": "Hanedan",
+      "place_name": "Hanedan, Beşiktaş, Besiktas, Istanbul, Turkey",
+      "center": [
+        29.008236,
+        41.041499
+      ],
+      "geometry": {
+        "coordinates": [
+          29.008236,
+          41.041499
+        ],
+        "type": "Point"
+      },
+      "context": [
+        {
+          "id": "place.14655443179261140",
+          "wikidata": "Q459495",
+          "text": "Besiktas"
+        },
+        {
+          "id": "region.8174624098975580",
+          "wikidata": "Q406",
+          "text": "Istanbul"
+        },
+        {
+          "id": "country.8502768370176230",
+          "short_code": "tr",
+          "wikidata": "Q43",
+          "text": "Turkey"
+        }
+      ]
+    }
+  ],
+  "attribution": "NOTICE: © 2020 Mapbox and its suppliers. All rights reserved. Use of this data is subject to the Mapbox Terms of Service (https://www.mapbox.com/about/maps/). This response and the information it contains may not be retained. POI(s) provided by Foursquare."
+}
