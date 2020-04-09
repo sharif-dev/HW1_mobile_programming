@@ -37,7 +37,7 @@ public class RequestManager {
                     MainActivity.printThreadInfo("in response manager");
                     CitySearchResult searchResult = gson.fromJson(response.toString(), CitySearchResult.class);
                     Message msg = new Message();
-                    msg.what = 22;
+                    msg.what = R.integer.city_task_complete;
                     msg.obj = searchResult;
                     mainHandler.sendMessage(msg);
                 },
@@ -45,7 +45,7 @@ public class RequestManager {
                     Log.i(MainActivity.TAG ,("That didn't work! ") + error.getMessage());
                     Message msg = new Message();
                     msg.obj = "Error In Request Sending : \n" + error.toString();
-                    msg.what = 22;
+                    msg.what = R.integer.city_task_complete;
                     mainHandler.sendMessage(msg);
                 });
         this.queue.add(jsonObjectRequest);
@@ -59,7 +59,7 @@ public class RequestManager {
                     Gson gson = new Gson();
                     WeatherSearchResult searchResult = gson.fromJson(response.toString(), WeatherSearchResult.class);
                     Message msg = new Message();
-                    msg.what = 23;
+                    msg.what = R.integer.weather_task_complete;
                     msg.obj = searchResult;
                     mainHandler.sendMessage(msg);
                 },
@@ -67,7 +67,7 @@ public class RequestManager {
                     Log.i(MainActivity.TAG ,("That didn't work! ") + error.getMessage());
                     Message msg = new Message();
                     msg.obj = "Error In Request Sending : \n" + error.getMessage();
-                    msg.what = 23;
+                    msg.what = R.integer.weather_task_complete;
                     mainHandler.sendMessage(msg);
                 });
         this.queue.add(jsonObjectRequest);
