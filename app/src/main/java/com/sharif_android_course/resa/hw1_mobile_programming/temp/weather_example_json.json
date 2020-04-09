@@ -1,0 +1,263 @@
+{
+  "location": {
+    "name": "Hamakasi",
+    "region": "Lorestan",
+    "country": "Iran",
+    "lat": 35.02,
+    "lon": 48.97,
+    "tz_id": "Asia/Tehran",
+    "localtime_epoch": 1586449978,
+    "localtime": "2020-04-09 21:02"
+  },
+  "current": {
+    "last_updated_epoch": 1586437248,
+    "last_updated": "2020-04-09 17:30",
+    "temp_c": 6.0,
+    "temp_f": 42.8,
+    "is_day": 0,
+    "condition": {
+      "text": "Moderate rain",
+      "icon": "//cdn.weatherapi.com/weather/64x64/night/302.png",
+      "code": 1189
+    },
+    "wind_mph": 4.3,
+    "wind_kph": 6.8,
+    "wind_degree": 170,
+    "wind_dir": "S",
+    "pressure_mb": 1016.0,
+    "pressure_in": 30.5,
+    "precip_mm": 1.9,
+    "precip_in": 0.07,
+    "humidity": 93,
+    "cloud": 100,
+    "feelslike_c": 4.6,
+    "feelslike_f": 40.3,
+    "vis_km": 5.0,
+    "vis_miles": 3.0,
+    "uv": 0.0,
+    "gust_mph": 13.0,
+    "gust_kph": 20.9
+  },
+  "forecast": {
+    "forecastday": [
+      {
+        "date": "2020-04-09",
+        "date_epoch": 1586390400,
+        "day": {
+          "maxtemp_c": 10.7,
+          "maxtemp_f": 51.3,
+          "mintemp_c": 4.5,
+          "mintemp_f": 40.1,
+          "avgtemp_c": 7.0,
+          "avgtemp_f": 44.5,
+          "maxwind_mph": 16.6,
+          "maxwind_kph": 26.6,
+          "totalprecip_mm": 16.5,
+          "totalprecip_in": 0.65,
+          "avgvis_km": 8.9,
+          "avgvis_miles": 5.0,
+          "avghumidity": 78.0,
+          "condition": {
+            "text": "Patchy rain possible",
+            "icon": "//cdn.weatherapi.com/weather/64x64/day/176.png",
+            "code": 1063
+          },
+          "uv": 5.4
+        },
+        "astro": {
+          "sunrise": "06:50 AM",
+          "sunset": "07:42 PM",
+          "moonrise": "09:23 PM",
+          "moonset": "07:51 AM"
+        }
+      },
+      {
+        "date": "2020-04-10",
+        "date_epoch": 1586476800,
+        "day": {
+          "maxtemp_c": 17.4,
+          "maxtemp_f": 63.3,
+          "mintemp_c": 4.6,
+          "mintemp_f": 40.3,
+          "avgtemp_c": 10.3,
+          "avgtemp_f": 50.5,
+          "maxwind_mph": 9.2,
+          "maxwind_kph": 14.8,
+          "totalprecip_mm": 3.4,
+          "totalprecip_in": 0.13,
+          "avgvis_km": 9.8,
+          "avgvis_miles": 6.0,
+          "avghumidity": 70.0,
+          "condition": {
+            "text": "Moderate or heavy rain shower",
+            "icon": "//cdn.weatherapi.com/weather/64x64/day/356.png",
+            "code": 1243
+          },
+          "uv": 6.8
+        },
+        "astro": {
+          "sunrise": "06:48 AM",
+          "sunset": "07:43 PM",
+          "moonrise": "10:34 PM",
+          "moonset": "08:29 AM"
+        }
+      },
+      {
+        "date": "2020-04-11",
+        "date_epoch": 1586563200,
+        "day": {
+          "maxtemp_c": 15.4,
+          "maxtemp_f": 59.7,
+          "mintemp_c": 7.2,
+          "mintemp_f": 45.0,
+          "avgtemp_c": 11.0,
+          "avgtemp_f": 51.8,
+          "maxwind_mph": 21.3,
+          "maxwind_kph": 34.2,
+          "totalprecip_mm": 0.7,
+          "totalprecip_in": 0.03,
+          "avgvis_km": 10.0,
+          "avgvis_miles": 6.0,
+          "avghumidity": 56.0,
+          "condition": {
+            "text": "Moderate rain at times",
+            "icon": "//cdn.weatherapi.com/weather/64x64/day/299.png",
+            "code": 1186
+          },
+          "uv": 3.0
+        },
+        "astro": {
+          "sunrise": "06:47 AM",
+          "sunset": "07:44 PM",
+          "moonrise": "11:44 PM",
+          "moonset": "09:12 AM"
+        }
+      },
+      {
+        "date": "2020-04-12",
+        "date_epoch": 1586649600,
+        "day": {
+          "maxtemp_c": 14.7,
+          "maxtemp_f": 58.5,
+          "mintemp_c": 4.5,
+          "mintemp_f": 40.1,
+          "avgtemp_c": 9.8,
+          "avgtemp_f": 49.6,
+          "maxwind_mph": 6.5,
+          "maxwind_kph": 10.4,
+          "totalprecip_mm": 0.1,
+          "totalprecip_in": 0.0,
+          "avgvis_km": 10.0,
+          "avgvis_miles": 6.0,
+          "avghumidity": 48.0,
+          "condition": {
+            "text": "Partly cloudy",
+            "icon": "//cdn.weatherapi.com/weather/64x64/day/116.png",
+            "code": 1003
+          },
+          "uv": 3.0
+        },
+        "astro": {
+          "sunrise": "06:46 AM",
+          "sunset": "07:45 PM",
+          "moonrise": "No moonrise",
+          "moonset": "09:59 AM"
+        }
+      },
+      {
+        "date": "2020-04-13",
+        "date_epoch": 1586736000,
+        "day": {
+          "maxtemp_c": 13.5,
+          "maxtemp_f": 56.3,
+          "mintemp_c": 5.8,
+          "mintemp_f": 42.4,
+          "avgtemp_c": 10.2,
+          "avgtemp_f": 50.4,
+          "maxwind_mph": 6.9,
+          "maxwind_kph": 11.2,
+          "totalprecip_mm": 1.8,
+          "totalprecip_in": 0.07,
+          "avgvis_km": 9.9,
+          "avgvis_miles": 6.0,
+          "avghumidity": 54.0,
+          "condition": {
+            "text": "Patchy rain possible",
+            "icon": "//cdn.weatherapi.com/weather/64x64/day/176.png",
+            "code": 1063
+          },
+          "uv": 3.0
+        },
+        "astro": {
+          "sunrise": "06:44 AM",
+          "sunset": "07:45 PM",
+          "moonrise": "12:49 AM",
+          "moonset": "10:50 AM"
+        }
+      },
+      {
+        "date": "2020-04-14",
+        "date_epoch": 1586822400,
+        "day": {
+          "maxtemp_c": 14.6,
+          "maxtemp_f": 58.3,
+          "mintemp_c": 7.4,
+          "mintemp_f": 45.3,
+          "avgtemp_c": 10.7,
+          "avgtemp_f": 51.3,
+          "maxwind_mph": 12.3,
+          "maxwind_kph": 19.8,
+          "totalprecip_mm": 3.8,
+          "totalprecip_in": 0.15,
+          "avgvis_km": 10.0,
+          "avgvis_miles": 6.0,
+          "avghumidity": 61.0,
+          "condition": {
+            "text": "Moderate or heavy rain shower",
+            "icon": "//cdn.weatherapi.com/weather/64x64/day/356.png",
+            "code": 1243
+          },
+          "uv": 3.0
+        },
+        "astro": {
+          "sunrise": "06:43 AM",
+          "sunset": "07:46 PM",
+          "moonrise": "01:48 AM",
+          "moonset": "11:45 AM"
+        }
+      },
+      {
+        "date": "2020-04-15",
+        "date_epoch": 1586908800,
+        "day": {
+          "maxtemp_c": 17.8,
+          "maxtemp_f": 64.0,
+          "mintemp_c": 6.5,
+          "mintemp_f": 43.7,
+          "avgtemp_c": 11.8,
+          "avgtemp_f": 53.2,
+          "maxwind_mph": 14.3,
+          "maxwind_kph": 23.0,
+          "totalprecip_mm": 0.2,
+          "totalprecip_in": 0.01,
+          "avgvis_km": 10.0,
+          "avgvis_miles": 6.0,
+          "avghumidity": 52.0,
+          "condition": {
+            "text": "Patchy rain possible",
+            "icon": "//cdn.weatherapi.com/weather/64x64/day/176.png",
+            "code": 1063
+          },
+          "uv": 3.0
+        },
+        "astro": {
+          "sunrise": "06:42 AM",
+          "sunset": "07:47 PM",
+          "moonrise": "02:40 AM",
+          "moonset": "12:42 PM"
+        }
+      }
+    ]
+  },
+  "alert": {}
+}

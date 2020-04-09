@@ -16,6 +16,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.sharif_android_course.resa.hw1_mobile_programming.models.CitySearchResult;
+import com.sharif_android_course.resa.hw1_mobile_programming.models.WeatherSearchResult;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,11 +32,15 @@ public class MainActivity extends AppCompatActivity {
         Button btn = findViewById(R.id.button);
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://api.weatherapi.com/v1/forecast.json?q=35.0231,48.9697&key=6d7607dbb2a84331acc133348200904&days=7";
-
-        JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+        String url = "https://api.mapbox.com/geocoding/v5/mapbox.places/hamedan.json?access_token=pk.eyJ1Ijoic2FsZWhzYWdoYXJjaGkiLCJhIjoiY2s4c3NsY20yMDJmODNlcWl0emdieGViOCJ9.Xtjda-SoSq0g6sVNlh1Dtw";
+        String url2 = "https://api.weatherapi.com/v1/forecast.json?q=35.0231,48.9697&key=6d7607dbb2a84331acc133348200904&days=7";
+        JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.GET, url2, null,
                 response -> {
                     Log.i(TAG, response.toString());
+
+                    Gson gson = new Gson();
+                    WeatherSearchResult searchResult = gson.fromJson(response.toString(), WeatherSearchResult.class);
+                    Log.i(TAG, "ok");
                 },
                 error -> Log.i(TAG, ("That didn't work!") + error.getMessage()));
 
