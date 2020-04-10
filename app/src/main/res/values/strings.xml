@@ -8,4 +8,5 @@
     <string name="city_hint">Name of city :</string>
     <string name="no_result">NO RESULT</string>
     <string name="weatherimageDescription">WeatherImage</string>
+    <string name="now">NOW :</string>
 </resources>

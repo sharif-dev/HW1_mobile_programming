@@ -3,6 +3,7 @@ package com.sharif_android_course.resa.hw1_mobile_programming;
 public class SharedObjects {
     public MainActivity mainActivity;
     public WeatherActivity weatherActivity;
+    public String lastCitySearch = "";
     private SharedObjects() {
 
     }

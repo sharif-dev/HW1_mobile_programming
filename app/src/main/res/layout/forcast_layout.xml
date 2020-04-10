@@ -5,8 +5,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/layout_bg"
-        android:layout_margin="20dp"
+        android:layout_marginVertical="20dp"
+        android:layout_marginHorizontal="10dp"
         android:paddingHorizontal="20dp"
+        android:paddingBottom="5dp"
+        android:paddingTop="20dp"
         tools:context=".WeatherActivity">
 
 
@@ -17,7 +20,7 @@
             android:text="Sat"
             android:textAlignment="viewStart"
             android:textColor="@color/colorBright"
-            android:textSize="30sp"
+            android:textSize="24sp"
             app:layout_constraintBottom_toTopOf="@id/conditionText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -25,27 +28,29 @@
 
     <ImageView
             android:id="@+id/imageView"
-
             android:layout_width="wrap_content"
+            android:layout_height="0dp"
             android:contentDescription="@string/weatherimageDescription"
+            android:scaleType="center"
             app:layout_constraintBottom_toTopOf="@id/imageView2"
             app:layout_constraintEnd_toStartOf="@id/maxTempText"
             app:layout_constraintStart_toEndOf="@id/dayOfWeek"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/arrow_up_float"
-            android:layout_height="0dp" />
+            app:srcCompat="@drawable/up_icon" />
 
 
     <ImageView
             android:id="@+id/imageView2"
             android:layout_width="wrap_content"
+            android:layout_height="0dp"
             android:contentDescription="@string/weatherimageDescription"
+            android:rotation="180"
+            android:scaleType="center"
             app:layout_constraintBottom_toTopOf="@id/conditionText"
             app:layout_constraintEnd_toStartOf="@id/minTempText"
             app:layout_constraintStart_toEndOf="@id/dayOfWeek"
             app:layout_constraintTop_toBottomOf="@id/imageView"
-            app:srcCompat="@android:drawable/arrow_down_float"
-            android:layout_height="0dp" />
+            app:srcCompat="@drawable/up_icon" />
 
     <TextView
             android:id="@+id/maxTempText"
@@ -53,6 +58,7 @@
             android:text="36"
             android:textAlignment="center"
             android:textSize="14sp"
+            android:paddingVertical="5dp"
             app:layout_constraintEnd_toStartOf="@id/conditionImage"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/minTempText"
@@ -64,6 +70,7 @@
             android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:text="12343"
+            android:paddingVertical="5dp"
             android:textAlignment="center"
             android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@id/conditionText"
@@ -73,26 +80,26 @@
 
     <ImageView
             android:id="@+id/conditionImage"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:clickable="false"
             android:contentDescription="@string/weatherimageDescription"
-            android:scaleType="center"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toTopOf="@id/conditionText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/conditionText"
-            app:srcCompat="@drawable/ic_launcher_foreground" />
+            app:srcCompat="@drawable/abc_vector_test" />
 
 
     <TextView
             android:id="@+id/conditionText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:paddingTop="8dp"
             android:textStyle="bold"
             android:text="Partly Cloudy"
             android:textAlignment="center"
-            android:textSize="14sp"
+            android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

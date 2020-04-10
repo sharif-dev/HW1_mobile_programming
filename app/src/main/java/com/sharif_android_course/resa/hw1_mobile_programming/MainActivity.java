@@ -18,12 +18,18 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.sharif_android_course.resa.hw1_mobile_programming.adapters.CitiesAdapter;
 import com.sharif_android_course.resa.hw1_mobile_programming.models.City;
 import com.sharif_android_course.resa.hw1_mobile_programming.models.CitySearchResult;
 import com.sharif_android_course.resa.hw1_mobile_programming.workers.ThreadManager;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -31,6 +37,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
@@ -50,8 +57,6 @@ public class MainActivity extends AppCompatActivity {
     private TextInputLayout citySearch;
     private ProgressBar prg;
     private RecyclerView rvCities;
-
-    private ImageView imageView;
 
 
     @Override
@@ -106,17 +111,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        imageView = findViewById(R.id.imageView3);
+        citySearch.getEditText().setText(SharedObjects.getInstance().lastCitySearch);
 
-        threadManager.ExecuteImageRequest();
-
-    }
-
-    public void imageReceived(String data) {
-        Log.i(TAG, data);
-        byte[] decodedString = Base64.decode(data, Base64.URL_SAFE);
-        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-        imageView.setImageBitmap(decodedByte);
+        //threadManager.ExecuteImageRequest();
     }
 
     public void goNextForm(City city) {
@@ -185,6 +182,7 @@ public class MainActivity extends AppCompatActivity {
             citiesAdapter.notifyItemInserted(cityList.size() - 1);
         }
         setLoading(false);
+        SharedObjects.getInstance().lastCitySearch = getSearchTextStr();
     }
 
     public void startCitySearch() {

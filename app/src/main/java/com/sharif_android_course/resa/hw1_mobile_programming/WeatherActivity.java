@@ -2,17 +2,17 @@ package com.sharif_android_course.resa.hw1_mobile_programming;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
-import com.sharif_android_course.resa.hw1_mobile_programming.adapters.CitiesAdapter;
 import com.sharif_android_course.resa.hw1_mobile_programming.adapters.WeatherAdapter;
 import com.sharif_android_course.resa.hw1_mobile_programming.models.City;
 import com.sharif_android_course.resa.hw1_mobile_programming.models.DayState;
@@ -31,6 +31,10 @@ public class WeatherActivity extends AppCompatActivity {
     private WeatherAdapter weatherAdapter;
     private ThreadManager threadManager;
     private ProgressBar prg;
+    private TextView nowTemp;
+    private TextView nowConditionText;
+    private ImageView nowConditionImage;
+    private ViewGroup nowCard;
     private RecyclerView rvWeather;
 
     @Override
@@ -57,27 +61,42 @@ public class WeatherActivity extends AppCompatActivity {
         rvWeather.setLayoutManager(new LinearLayoutManager(this));
 
         prg = findViewById(R.id.loading2);
+
+        nowConditionText = findViewById(R.id.nowConditionText);
+        nowTemp = findViewById(R.id.nowTempText);
+        nowConditionImage = findViewById(R.id.nowConditionImage);
+        nowCard = findViewById(R.id.nowCard);
         setLoading(true);
 
     }
 
-    public void broadcastSearchResult(WeatherSearchResult searchResult) {
+    public void imageReceived(WeatherSearchResult data) {
         weatherList.clear();
         weatherAdapter.notifyDataSetChanged();
-        for(DayState state : searchResult.weatherForecast.forecastDay){
+        for(DayState state : data.weatherForecast.forecastDay){
             weatherList.add(state);
             weatherAdapter.notifyItemInserted(weatherList.size() - 1);
         }
+        nowTemp.setText(WeatherAdapter.getDegreeString(data.weatherCurrent.temperature));
+        nowConditionImage.setImageBitmap(data.weatherCurrent.condition.bitmap);
+        nowConditionText.setText(data.weatherCurrent.condition.conditionState);
         setLoading(false);
+    }
+
+    public void broadcastSearchResult(WeatherSearchResult searchResult) {
+        threadManager.PrepareImages(searchResult);
     }
 
     void setLoading(boolean loading) {
         if (loading) {
             prg.setVisibility(View.VISIBLE);
             rvWeather.setVisibility(View.INVISIBLE);
+            nowCard.setVisibility(View.INVISIBLE);
         } else {
             prg.setVisibility(View.INVISIBLE);
             rvWeather.setVisibility(View.VISIBLE);
+            nowCard.setVisibility(View.VISIBLE);
         }
     }
+
 }

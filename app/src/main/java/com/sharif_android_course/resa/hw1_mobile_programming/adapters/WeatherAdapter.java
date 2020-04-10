@@ -71,10 +71,11 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
         String weekDay;
         SimpleDateFormat dayFormat = new SimpleDateFormat("E", Locale.US);
         weekDay = dayFormat.format(cal.getTime());
-        holder.dayOfWeek.setText(weekDay);
+        holder.dayOfWeek.setText(weekDay.toUpperCase());
+        holder.conditionImage.setImageBitmap(city.dayInformation.condition.bitmap);
     }
 
-    private String getDegreeString(float degree) {
+    public static String getDegreeString(float degree) {
         return String.valueOf(degree) + " °C";
     }
 

@@ -1,5 +1,6 @@
 package com.sharif_android_course.resa.hw1_mobile_programming;
 
+import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -43,7 +44,6 @@ public class MainHandler extends Handler {
 
         } else if (dMsg.info == MessageInfo.WEATHER_TASK_COMPLETE) {
             WeatherSearchResult searchResult = (WeatherSearchResult) dMsg.data;
-            Log.i(mainAct.TAG, String.valueOf(weatherActivity == null));
             weatherActivity.broadcastSearchResult(searchResult);
 
 
@@ -57,7 +57,7 @@ public class MainHandler extends Handler {
 
 
         } else if (dMsg.info == MessageInfo.IMAGE) {
-            mainAct.imageReceived((String) dMsg.data);
+            weatherActivity.imageReceived((WeatherSearchResult) dMsg.data);
 
 
 
