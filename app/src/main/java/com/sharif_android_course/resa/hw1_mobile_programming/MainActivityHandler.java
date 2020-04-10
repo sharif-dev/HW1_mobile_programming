@@ -34,6 +34,12 @@ public class MainActivityHandler extends Handler {
                 mainAct.cityList.add(c);
                 mainAct.citiesAdapter.notifyItemInserted(mainAct.cityList.size() - 1);
             }
+            if (searchResult.cities.size() == 0) {
+                City city = new City();
+                city.emptyCity = true;
+                mainAct.cityList.add(city);
+                mainAct.citiesAdapter.notifyItemInserted(mainAct.cityList.size() - 1);
+            }
             mainAct.setLoading(false);
 
 

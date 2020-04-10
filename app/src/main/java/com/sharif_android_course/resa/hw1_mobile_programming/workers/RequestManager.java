@@ -31,11 +31,9 @@ public class RequestManager {
     public void SendCityRequest(String searchText, String apiToken) {
         String url = this.context.getString(R.string.city_url);
         url = String.format(url, searchText, apiToken);
-        MainActivity.printThreadInfo("in request manager");
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
                     Gson gson = new Gson();
-                    MainActivity.printThreadInfo("in response manager");
                     CitySearchResult searchResult = gson.fromJson(response.toString(), CitySearchResult.class);
                     mainHandler.sendMessage(DataMessage.makeDataMessage(DataMessage.MessageInfo.CITY_TAKS_COMPLETE, searchResult));
                 },

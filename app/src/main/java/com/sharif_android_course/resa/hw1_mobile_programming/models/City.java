@@ -14,6 +14,8 @@ public class City {
     @SerializedName("center")
     private List<Float> pointAtMap = null;
 
+    public transient boolean emptyCity = false;
+
     public float getLatitude() {
         if (pointAtMap == null)
             return 0;

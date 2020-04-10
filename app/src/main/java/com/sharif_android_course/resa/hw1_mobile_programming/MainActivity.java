@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -19,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.gson.Gson;
 import com.sharif_android_course.resa.hw1_mobile_programming.controllers.CitiesAdapter;
 import com.sharif_android_course.resa.hw1_mobile_programming.models.City;
 import com.sharif_android_course.resa.hw1_mobile_programming.models.CitySearchResult;
@@ -40,10 +42,12 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "hw1_MainActivity";
 
+    public static final String EXTRA_MESSAGE = "MESSAGE_HW1_KEY";
+
     private Handler cityHandler;
     public ThreadManager threadManager;
-    List<City> cityList;
-    CitiesAdapter citiesAdapter;
+    public List<City> cityList;
+    public CitiesAdapter citiesAdapter;
     private ScheduledExecutorService searchExecutor = null;
     private ScheduledFuture scheduledSeacrh = null;
     private TextInputLayout citySearch;
@@ -61,8 +65,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        cityHandler = new MainActivityHandler(Looper.getMainLooper(), this);
+        SharedObjects.getInstance().mainActivity = this;
 
+        cityHandler = new MainActivityHandler(Looper.getMainLooper(), this);
 
         threadManager = new ThreadManager(getCityHandler(), this);
 
@@ -81,18 +86,18 @@ public class MainActivity extends AppCompatActivity {
         citySearch = findViewById(R.id.citySearchLayout);
         Objects.requireNonNull(citySearch.getEditText()).addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                MainActivity.this.scheduleSearching(s.toString());
+                MainActivity.this.scheduleSearching(s.toString(), MainActivity.this.getResources().getInteger(R.integer.search_time_interval));
                 if (s.toString().equals("")) {
                     setLoading(false);
                 } else {
                     setLoading(true);
                 }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
 
             @Override
@@ -106,9 +111,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void goNextForm(City city) {
         Log.i(TAG, city.fullName);
+        Intent intent = new Intent(this, WeatherActivity.class);
+        Gson gson = new Gson();
+        intent.putExtra(EXTRA_MESSAGE, gson.toJson(city));
+        startActivity(intent);
     }
 
-    public void scheduleSearching(String cityName) {
+    public void scheduleSearching(String cityName, Integer interval) {
         if (searchExecutor == null)
             searchExecutor = Executors.newSingleThreadScheduledExecutor();
 
@@ -120,8 +129,7 @@ public class MainActivity extends AppCompatActivity {
         Runnable task = () -> {
             getCityHandler().sendMessage(DataMessage.makeDataMessage(DataMessage.MessageInfo.START_SEARCH, null));
         };
-
-        this.scheduledSeacrh = searchExecutor.schedule(task, 200, TimeUnit.MILLISECONDS);
+        this.scheduledSeacrh = searchExecutor.schedule(task, interval, TimeUnit.MILLISECONDS);
     }
 
     public void showErrorToUser(String text) {

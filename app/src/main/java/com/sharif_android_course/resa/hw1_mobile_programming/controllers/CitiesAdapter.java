@@ -41,7 +41,8 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder
                 int pos = getAdapterPosition();
                 if (pos != RecyclerView.NO_POSITION) {
                     City city = cities.get(pos);
-                    handler.sendMessage(DataMessage.makeDataMessage(DataMessage.MessageInfo.CITY_CLICKED, city));
+                    if (!city.emptyCity)
+                        handler.sendMessage(DataMessage.makeDataMessage(DataMessage.MessageInfo.CITY_CLICKED, city));
                 }
             });
         }
@@ -64,6 +65,10 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         City city = cities.get(position);
         Button button = holder.getCityBtn();
+        if (city.emptyCity){
+            button.setText(R.string.no_result);
+            return;
+        }
         String text = city.name.toUpperCase() + "\n\n" + city.fullName;
         button.setText(text);
     }
