@@ -2,7 +2,7 @@ package com.sharif_android_course.resa.hw1_mobile_programming;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Example local unit test, which will execute on the development machine (host).

@@ -6,8 +6,8 @@
         android:layout_height="wrap_content"
         android:background="@drawable/layout_now_bg"
         android:paddingHorizontal="20dp"
-        android:paddingBottom="5dp"
         android:paddingTop="20dp"
+        android:paddingBottom="5dp"
         tools:context=".WeatherActivity">
 
 
@@ -27,14 +27,14 @@
     <TextView
             android:id="@+id/nowTempText"
             android:layout_width="wrap_content"
-            android:text="36"
+            android:layout_height="wrap_content"
+            android:text=""
             android:textAlignment="center"
             android:textSize="25sp"
-            app:layout_constraintEnd_toStartOf="@id/nowConditionImage"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/nowConditionText"
+            app:layout_constraintEnd_toStartOf="@id/nowConditionImage"
             app:layout_constraintStart_toEndOf="@id/now"
-            android:layout_height="wrap_content" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
             android:id="@+id/nowConditionImage"
@@ -45,8 +45,7 @@
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toTopOf="@id/nowConditionText"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/abc_vector_test" />
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     <TextView
@@ -54,10 +53,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
-            android:textStyle="bold"
-            android:text="Partly Cloudy"
+            android:text=""
             android:textAlignment="center"
-            android:textSize="10sp"
+            android:textSize="12sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

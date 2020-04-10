@@ -4,12 +4,12 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/layout_bg"
-        android:layout_marginVertical="20dp"
         android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="20dp"
+        android:background="@drawable/layout_bg"
         android:paddingHorizontal="20dp"
-        android:paddingBottom="5dp"
         android:paddingTop="20dp"
+        android:paddingBottom="5dp"
         tools:context=".WeatherActivity">
 
 
@@ -17,7 +17,7 @@
             android:id="@+id/dayOfWeek"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Sat"
+            android:text=""
             android:textAlignment="viewStart"
             android:textColor="@color/colorBright"
             android:textSize="24sp"
@@ -55,22 +55,22 @@
     <TextView
             android:id="@+id/maxTempText"
             android:layout_width="60dp"
-            android:text="36"
+            android:layout_height="wrap_content"
+            android:paddingVertical="5dp"
+            android:text=""
             android:textAlignment="center"
             android:textSize="14sp"
-            android:paddingVertical="5dp"
-            app:layout_constraintEnd_toStartOf="@id/conditionImage"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/minTempText"
+            app:layout_constraintEnd_toStartOf="@id/conditionImage"
             app:layout_constraintStart_toEndOf="@id/imageView"
-            android:layout_height="wrap_content" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
             android:id="@+id/minTempText"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:text="12343"
             android:paddingVertical="5dp"
+            android:text=""
             android:textAlignment="center"
             android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@id/conditionText"
@@ -87,8 +87,7 @@
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toTopOf="@id/conditionText"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/abc_vector_test" />
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     <TextView
@@ -96,10 +95,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
-            android:textStyle="bold"
-            android:text="Partly Cloudy"
+            android:text=""
             android:textAlignment="center"
-            android:textSize="10sp"
+            android:textSize="12sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

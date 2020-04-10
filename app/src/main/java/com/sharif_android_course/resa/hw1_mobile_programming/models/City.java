@@ -10,11 +10,9 @@ public class City {
 
     @SerializedName("place_name")
     public String fullName;
-
+    public transient boolean emptyCity = false;
     @SerializedName("center")
     private List<Float> pointAtMap = null;
-
-    public transient boolean emptyCity = false;
 
     public String getLatitude() {
         if (pointAtMap == null)

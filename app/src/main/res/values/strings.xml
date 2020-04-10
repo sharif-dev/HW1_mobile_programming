@@ -9,4 +9,6 @@
     <string name="no_result">NO RESULT</string>
     <string name="weatherimageDescription">WeatherImage</string>
     <string name="now">NOW :</string>
+    <string name="cache_file_path">cachedWeather.json</string>
+    <string name="iconpath">icons/</string>
 </resources>

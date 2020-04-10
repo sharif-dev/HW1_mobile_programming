@@ -5,14 +5,12 @@ import com.google.gson.annotations.SerializedName;
 public class WeatherCurrent {
     @SerializedName("temp_c")
     public Float temperature;
-
+    @SerializedName("condition")
+    public WeatherCondition condition;
     @SerializedName("is_day")
     private int isDay;
 
-    @SerializedName("condition")
-    public WeatherCondition condition;
-
-    public boolean getIsDay(){
+    public boolean getIsDay() {
         return isDay == 1;
     }
 }

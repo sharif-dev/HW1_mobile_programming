@@ -1,35 +1,30 @@
 package com.sharif_android_course.resa.hw1_mobile_programming;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.sharif_android_course.resa.hw1_mobile_programming.adapters.CitiesAdapter;
 import com.sharif_android_course.resa.hw1_mobile_programming.models.City;
 import com.sharif_android_course.resa.hw1_mobile_programming.models.CitySearchResult;
+import com.sharif_android_course.resa.hw1_mobile_programming.workers.RequestManager;
 import com.sharif_android_course.resa.hw1_mobile_programming.workers.ThreadManager;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -37,9 +32,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -58,11 +50,9 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar prg;
     private RecyclerView rvCities;
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+    public static void printThreadInfo(String text) {
+        Log.i(TAG, text + " \t\tExecuting in --> " + " tid : " + android.os.Process.myTid()
+        );
     }
 
     @Override
@@ -113,7 +103,24 @@ public class MainActivity extends AppCompatActivity {
 
         citySearch.getEditText().setText(SharedObjects.getInstance().lastCitySearch);
 
-        //threadManager.ExecuteImageRequest();
+        checkIntenetConnectivity();
+
+
+        printThreadInfo("ssfsfsfs");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+    }
+
+    private void checkIntenetConnectivity() {
+        if (!RequestManager.isUserHaveInternet(this)) {
+            Toast toast = Toast.makeText(getApplicationContext(), "You dont have internet connection!", Toast.LENGTH_SHORT);
+            toast.show();
+            goNextForm(null);
+        }
     }
 
     public void goNextForm(City city) {
@@ -140,8 +147,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showErrorToUser(String text) {
-        // TODO : handle error text
-        Log.i(TAG, text);
+        if (!RequestManager.isUserHaveInternet(this)) {
+            text = "You dont have internet connection!";
+        }
+        new AlertDialog.Builder(MainActivity.this)
+                .setTitle("ERROR in City Search")
+                .setMessage(text)
+                .setCancelable(false)
+                .setPositiveButton("ok", null).show();
+        setLoading(false);
     }
 
     public Handler getCityHandler() {
@@ -161,12 +175,6 @@ public class MainActivity extends AppCompatActivity {
             rvCities.setVisibility(View.VISIBLE);
         }
     }
-
-    public static void printThreadInfo(String text) {
-        Log.i(TAG, text + " \t\tExecuting in --> " + " tid : " + android.os.Process.myTid()
-        );
-    }
-
 
     public void broadcastSearchResult(CitySearchResult searchResult) {
         cityList.clear();

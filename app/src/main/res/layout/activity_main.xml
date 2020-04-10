@@ -50,5 +50,4 @@
             app:layout_constraintTop_toTopOf="@id/rvCities" />
 
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>

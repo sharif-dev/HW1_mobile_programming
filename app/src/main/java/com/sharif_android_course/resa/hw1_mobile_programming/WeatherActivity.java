@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +18,7 @@ import com.sharif_android_course.resa.hw1_mobile_programming.adapters.WeatherAda
 import com.sharif_android_course.resa.hw1_mobile_programming.models.City;
 import com.sharif_android_course.resa.hw1_mobile_programming.models.DayState;
 import com.sharif_android_course.resa.hw1_mobile_programming.models.WeatherSearchResult;
+import com.sharif_android_course.resa.hw1_mobile_programming.workers.RequestManager;
 import com.sharif_android_course.resa.hw1_mobile_programming.workers.ThreadManager;
 
 import java.util.ArrayList;
@@ -42,17 +44,9 @@ public class WeatherActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
 
-        Intent myIntent = getIntent();
-        String cityinfo = myIntent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-        city = (new Gson()).fromJson(cityinfo, City.class);
-        setTitle(city.name);
-
 
         SharedObjects.getInstance().weatherActivity = this;
-
         threadManager = SharedObjects.getInstance().mainActivity.threadManager;
-
-        threadManager.ExecuteWeatherRequest(city.getLatitude(), city.getLongitude(), getString(R.string.weather_token), 7);
 
         rvWeather = findViewById(R.id.rvWeather);
         weatherList = new ArrayList<>();
@@ -68,23 +62,53 @@ public class WeatherActivity extends AppCompatActivity {
         nowCard = findViewById(R.id.nowCard);
         setLoading(true);
 
+
+        Intent myIntent = getIntent();
+        String cityinfo = myIntent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        if (cityinfo != null && !cityinfo.equals("null")) {
+            city = (new Gson()).fromJson(cityinfo, City.class);
+            threadManager.ExecuteWeatherRequest(city.getLatitude(), city.getLongitude(), city.name, getString(R.string.weather_token), 7);
+            setTitle(city.name);
+        } else {
+            threadManager.readCachedInfo();
+        }
+
+
     }
+
 
     public void imageReceived(WeatherSearchResult data) {
         weatherList.clear();
         weatherAdapter.notifyDataSetChanged();
-        for(DayState state : data.weatherForecast.forecastDay){
+        for (DayState state : data.weatherForecast.forecastDay) {
             weatherList.add(state);
             weatherAdapter.notifyItemInserted(weatherList.size() - 1);
         }
         nowTemp.setText(WeatherAdapter.getDegreeString(data.weatherCurrent.temperature));
         nowConditionImage.setImageBitmap(data.weatherCurrent.condition.bitmap);
         nowConditionText.setText(data.weatherCurrent.condition.conditionState);
+        if (data.cityName != null) {
+            setTitle(data.cityName);
+        }
         setLoading(false);
     }
 
     public void broadcastSearchResult(WeatherSearchResult searchResult) {
-        threadManager.PrepareImages(searchResult);
+        threadManager.cacheWeatherInfos(searchResult);
+        threadManager.prepareWeatherWithImages(searchResult);
+    }
+
+    public void showErrorToUser(String text) {
+        if (!RequestManager.isUserHaveInternet(this)) {
+            text = "You dont have internet connection!";
+        }
+        new AlertDialog.Builder(WeatherActivity.this)
+                .setTitle("ERROR in Weather Request")
+                .setMessage(text)
+                .setCancelable(false)
+                .setPositiveButton("ok", (dialog, which) -> {
+                    finish();
+                }).show();
     }
 
     void setLoading(boolean loading) {

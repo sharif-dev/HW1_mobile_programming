@@ -8,4 +8,7 @@ public class WeatherSearchResult {
 
     @SerializedName("forecast")
     public WeatherForecast weatherForecast;
+
+    @SerializedName("cityname")
+    public String cityName;
 }

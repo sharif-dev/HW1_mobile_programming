@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
         package="com.sharif_android_course.resa.hw1_mobile_programming">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -13,7 +14,8 @@
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true"
             android:windowSoftInputMode="adjustResize">
-        <activity android:name=".WeatherActivity"
+        <activity
+                android:name=".WeatherActivity"
                 android:parentActivityName=".MainActivity">
 
         </activity>
