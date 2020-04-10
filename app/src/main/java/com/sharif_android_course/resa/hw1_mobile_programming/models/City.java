@@ -16,16 +16,16 @@ public class City {
 
     public transient boolean emptyCity = false;
 
-    public float getLatitude() {
+    public String getLatitude() {
         if (pointAtMap == null)
-            return 0;
-        return pointAtMap.get(1);
+            return "0";
+        return String.valueOf(pointAtMap.get(1));
     }
 
-    public float getLongitude() {
+    public String getLongitude() {
         if (pointAtMap == null)
-            return 0;
-        return pointAtMap.get(0);
+            return "0";
+        return String.valueOf(pointAtMap.get(0));
     }
 
 }

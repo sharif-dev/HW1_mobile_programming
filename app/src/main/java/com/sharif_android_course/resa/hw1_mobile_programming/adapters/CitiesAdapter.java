@@ -1,20 +1,15 @@
-package com.sharif_android_course.resa.hw1_mobile_programming.controllers;
+package com.sharif_android_course.resa.hw1_mobile_programming.adapters;
 
-import android.app.ActivityManager;
-import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sharif_android_course.resa.hw1_mobile_programming.DataMessage;
-import com.sharif_android_course.resa.hw1_mobile_programming.MainActivity;
 import com.sharif_android_course.resa.hw1_mobile_programming.R;
 import com.sharif_android_course.resa.hw1_mobile_programming.models.City;
 

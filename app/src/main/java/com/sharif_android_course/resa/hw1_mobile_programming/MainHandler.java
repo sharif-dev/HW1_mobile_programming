@@ -3,19 +3,27 @@ package com.sharif_android_course.resa.hw1_mobile_programming;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.sharif_android_course.resa.hw1_mobile_programming.models.City;
 import com.sharif_android_course.resa.hw1_mobile_programming.models.CitySearchResult;
 import com.sharif_android_course.resa.hw1_mobile_programming.DataMessage.MessageInfo;
+import com.sharif_android_course.resa.hw1_mobile_programming.models.WeatherSearchResult;
 
-public class MainActivityHandler extends Handler {
+public class MainHandler extends Handler {
     private MainActivity mainAct;
+    private WeatherActivity weatherActivity;
 
-    MainActivityHandler(@NonNull Looper looper, MainActivity mainActivity) {
+    MainHandler(@NonNull Looper looper) {
         super(looper);
-        this.mainAct = mainActivity;
+        refreshRefrences();
+    }
+
+    private void refreshRefrences() {
+        this.mainAct = SharedObjects.getInstance().mainActivity;
+        this.weatherActivity = SharedObjects.getInstance().weatherActivity;
     }
 
     @Override
@@ -24,36 +32,23 @@ public class MainActivityHandler extends Handler {
         if (!(msg.obj instanceof DataMessage))
             return;
         DataMessage dMsg = (DataMessage) msg.obj;
-
+        refreshRefrences();
 
         if (dMsg.info == MessageInfo.CITY_TAKS_COMPLETE) {
             CitySearchResult searchResult = (CitySearchResult) dMsg.data;
-            mainAct.cityList.clear();
-            mainAct.citiesAdapter.notifyDataSetChanged();
-            for (City c : searchResult.cities) {
-                mainAct.cityList.add(c);
-                mainAct.citiesAdapter.notifyItemInserted(mainAct.cityList.size() - 1);
-            }
-            if (searchResult.cities.size() == 0) {
-                City city = new City();
-                city.emptyCity = true;
-                mainAct.cityList.add(city);
-                mainAct.citiesAdapter.notifyItemInserted(mainAct.cityList.size() - 1);
-            }
-            mainAct.setLoading(false);
+            mainAct.broadcastSearchResult(searchResult);
+
 
 
 
         } else if (dMsg.info == MessageInfo.WEATHER_TASK_COMPLETE) {
-
-
+            WeatherSearchResult searchResult = (WeatherSearchResult) dMsg.data;
+            Log.i(mainAct.TAG, String.valueOf(weatherActivity == null));
+            weatherActivity.broadcastSearchResult(searchResult);
 
 
         } else if (dMsg.info == MessageInfo.START_SEARCH) {
-            String city = mainAct.getSearchTextStr();
-            if (!city.equals("")) {
-                mainAct.threadManager.ExecuteCityRequest(city, mainAct.getString(R.string.city_token));
-            }
+            mainAct.startCitySearch();
 
 
 

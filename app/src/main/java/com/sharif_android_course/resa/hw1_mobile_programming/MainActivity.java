@@ -1,6 +1,5 @@
 package com.sharif_android_course.resa.hw1_mobile_programming;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,30 +8,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
-import com.sharif_android_course.resa.hw1_mobile_programming.controllers.CitiesAdapter;
+import com.sharif_android_course.resa.hw1_mobile_programming.adapters.CitiesAdapter;
 import com.sharif_android_course.resa.hw1_mobile_programming.models.City;
 import com.sharif_android_course.resa.hw1_mobile_programming.models.CitySearchResult;
-import com.sharif_android_course.resa.hw1_mobile_programming.models.WeatherSearchResult;
-import com.sharif_android_course.resa.hw1_mobile_programming.workers.RequestManager;
 import com.sharif_android_course.resa.hw1_mobile_programming.workers.ThreadManager;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -40,14 +32,14 @@ import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String TAG = "hw1_MainActivity";
-
+    public static final String TAG = "hw1_ActivityMain";
     public static final String EXTRA_MESSAGE = "MESSAGE_HW1_KEY";
 
-    private Handler cityHandler;
     public ThreadManager threadManager;
     public List<City> cityList;
     public CitiesAdapter citiesAdapter;
+
+    private Handler cityHandler;
     private ScheduledExecutorService searchExecutor = null;
     private ScheduledFuture scheduledSeacrh = null;
     private TextInputLayout citySearch;
@@ -67,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
         SharedObjects.getInstance().mainActivity = this;
 
-        cityHandler = new MainActivityHandler(Looper.getMainLooper(), this);
+        cityHandler = new MainHandler(Looper.getMainLooper());
 
         threadManager = new ThreadManager(getCityHandler(), this);
 
@@ -110,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goNextForm(City city) {
-        Log.i(TAG, city.fullName);
         Intent intent = new Intent(this, WeatherActivity.class);
         Gson gson = new Gson();
         intent.putExtra(EXTRA_MESSAGE, gson.toJson(city));
@@ -127,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Runnable task = () -> {
+            ///MainActivity.this.startCitySearch();
             getCityHandler().sendMessage(DataMessage.makeDataMessage(DataMessage.MessageInfo.START_SEARCH, null));
         };
         this.scheduledSeacrh = searchExecutor.schedule(task, interval, TimeUnit.MILLISECONDS);
@@ -161,4 +153,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void broadcastSearchResult(CitySearchResult searchResult) {
+        cityList.clear();
+        citiesAdapter.notifyDataSetChanged();
+        for (City c : searchResult.cities) {
+            cityList.add(c);
+            citiesAdapter.notifyItemInserted(cityList.size() - 1);
+        }
+        if (searchResult.cities.size() == 0) {
+            City city = new City();
+            city.emptyCity = true;
+            cityList.add(city);
+            citiesAdapter.notifyItemInserted(cityList.size() - 1);
+        }
+        setLoading(false);
+    }
+
+    public void startCitySearch() {
+        String city = getSearchTextStr();
+        if (!city.equals("")) {
+            threadManager.ExecuteCityRequest(city, getString(R.string.city_token));
+        }
+    }
 }
