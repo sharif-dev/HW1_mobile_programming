@@ -6,6 +6,7 @@ import android.util.Log;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.sharif_android_course.resa.hw1_mobile_programming.DataMessage;
@@ -52,6 +53,22 @@ public class RequestManager {
                     Gson gson = new Gson();
                     WeatherSearchResult searchResult = gson.fromJson(response.toString(), WeatherSearchResult.class);
                     mainHandler.sendMessage(DataMessage.makeDataMessage(DataMessage.MessageInfo.WEATHER_TASK_COMPLETE, searchResult));
+                },
+                error -> {
+                    String err = "Error In Request Sending : \n" + error.getMessage();
+                    mainHandler.sendMessage(DataMessage.makeDataMessage(DataMessage.MessageInfo.ERROR, err));
+                });
+        this.queue.add(jsonObjectRequest);
+    }
+
+    public void DownloadImageRequest(String url) {
+        StringRequest jsonObjectRequest = new StringRequest(Request.Method.GET, url,
+                response -> {
+                    //Gson gson = new Gson();
+                    //WeatherSearchResult searchResult = gson.fromJson(response.toString(), WeatherSearchResult.class);
+                    //mainHandler.sendMessage(DataMessage.makeDataMessage(DataMessage.MessageInfo.WEATHER_TASK_COMPLETE, searchResult));
+                    Log.i("hw1_Act", response);
+                    mainHandler.sendMessage(DataMessage.makeDataMessage(DataMessage.MessageInfo.IMAGE, response));
                 },
                 error -> {
                     String err = "Error In Request Sending : \n" + error.getMessage();

@@ -56,6 +56,11 @@ public class MainHandler extends Handler {
             mainAct.goNextForm((City) dMsg.data);
 
 
+        } else if (dMsg.info == MessageInfo.IMAGE) {
+            mainAct.imageReceived((String) dMsg.data);
+
+
+
 
         } else if (dMsg.info == MessageInfo.ERROR) {
             mainAct.showErrorToUser((String) dMsg.data);

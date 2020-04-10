@@ -10,6 +10,7 @@ public class DataMessage {
         WEATHER_TASK_COMPLETE,
         START_SEARCH,
         CITY_CLICKED,
+        IMAGE,
         ERROR
     }
 

@@ -10,9 +10,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.google.android.material.textfield.TextInputLayout;
@@ -29,6 +31,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
     private TextInputLayout citySearch;
     private ProgressBar prg;
     private RecyclerView rvCities;
+
+    private ImageView imageView;
+
 
     @Override
     protected void onResume() {
@@ -98,7 +106,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        imageView = findViewById(R.id.imageView3);
 
+        threadManager.ExecuteImageRequest();
+
+    }
+
+    public void imageReceived(String data) {
+        Log.i(TAG, data);
+        byte[] decodedString = Base64.decode(data, Base64.URL_SAFE);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        imageView.setImageBitmap(decodedByte);
     }
 
     public void goNextForm(City city) {
@@ -175,4 +193,6 @@ public class MainActivity extends AppCompatActivity {
             threadManager.ExecuteCityRequest(city, getString(R.string.city_token));
         }
     }
+
+
 }

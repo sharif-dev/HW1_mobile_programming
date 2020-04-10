@@ -27,4 +27,13 @@ public class ThreadManager {
         });
         thread.start();
     }
+
+    public void ExecuteImageRequest() {
+        Thread thread = new Thread(() -> {
+            synchronized (this.requestManager) {
+                requestManager.DownloadImageRequest("http://cdn.weatherapi.com/weather/64x64/day/299.png");
+            }
+        });
+        thread.start();
+    }
 }

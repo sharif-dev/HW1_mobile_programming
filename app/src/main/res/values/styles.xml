@@ -11,4 +11,12 @@
         <item name="colorControlHighlight">#69F0AE</item>
     </style>
 
+    <style name="ForecastStyle" parent="Widget.AppCompat.Button.Borderless.Colored">
+        <item name="colorAccent">@color/colorForcast</item>
+    </style>
+
+    <style name="TodayWeatherStyle" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
 </resources>
