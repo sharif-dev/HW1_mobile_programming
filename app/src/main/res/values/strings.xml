@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">HW1_mobile_programming</string>
-    <string name="sdf">ssdvsdvsdvsdvsvd</string>
     <string name="city_token">pk.eyJ1Ijoic2FsZWhzYWdoYXJjaGkiLCJhIjoiY2s4c3NsY20yMDJmODNlcWl0emdieGViOCJ9.Xtjda-SoSq0g6sVNlh1Dtw</string>
     <string name="weather_token">6d7607dbb2a84331acc133348200904</string>
     <string name="city_url">https://api.mapbox.com/geocoding/v5/mapbox.places/%s.json?access_token=%s</string>
@@ -11,4 +10,9 @@
     <string name="now">NOW :</string>
     <string name="cache_file_path">cachedWeather.json</string>
     <string name="iconpath">icons/</string>
+    <string name="no_internet_error">You dont have internet connection!</string>
+    <string name="ok">OK</string>
+    <string name="city_search_error">ERROR in City Search</string>
+    <string name="weather_search_error">ERROR in Weather Request</string>
+    <string name="cache_empty_error">There aren\'t any data to show :)</string>
 </resources>

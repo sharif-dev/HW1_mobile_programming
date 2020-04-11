@@ -42,21 +42,18 @@ public class MainHandler extends Handler {
             WeatherSearchResult searchResult = (WeatherSearchResult) dMsg.data;
             weatherActivity.broadcastSearchResult(searchResult);
 
-
-        } else if (dMsg.info == MessageInfo.START_SEARCH) {
-            mainAct.startCitySearch();
-
-
         } else if (dMsg.info == MessageInfo.CITY_CLICKED) {
             mainAct.goNextForm((City) dMsg.data);
 
 
         } else if (dMsg.info == MessageInfo.WEATHER_WITH_IMAGE) {
-            weatherActivity.imageReceived((WeatherSearchResult) dMsg.data);
+            weatherActivity.broadcastSearchResultWithImages((WeatherSearchResult) dMsg.data);
 
 
         } else if (dMsg.info == MessageInfo.ERROR_CITY) {
             mainAct.showErrorToUser((String) dMsg.data);
+
+
         } else if (dMsg.info == MessageInfo.ERROR_WEATHER) {
             weatherActivity.showErrorToUser((String) dMsg.data);
         }

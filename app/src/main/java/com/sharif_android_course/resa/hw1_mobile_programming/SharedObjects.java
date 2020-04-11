@@ -1,16 +1,16 @@
 package com.sharif_android_course.resa.hw1_mobile_programming;
 
-public class SharedObjects {
+class SharedObjects {
     private static SharedObjects instance = null;
-    public MainActivity mainActivity;
-    public WeatherActivity weatherActivity;
-    public String lastCitySearch = "";
+    MainActivity mainActivity;
+    WeatherActivity weatherActivity;
+    String lastCitySearch = "";
 
     private SharedObjects() {
 
     }
 
-    public static SharedObjects getInstance() {
+    static SharedObjects getInstance() {
         if (instance == null)
             instance = new SharedObjects();
         return instance;

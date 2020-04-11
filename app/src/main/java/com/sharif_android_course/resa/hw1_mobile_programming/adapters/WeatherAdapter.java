@@ -20,6 +20,8 @@ import java.util.Locale;
 
 public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHolder> {
 
+    private static final String CENTI_GRADE = " °C";
+    private static final String DECODE_DAY = "E";
     private List<DayState> weathers;
 
     public WeatherAdapter(List<DayState> weathers) {
@@ -27,7 +29,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
     }
 
     public static String getDegreeString(float degree) {
-        return degree + " °C";
+        return degree + CENTI_GRADE;
     }
 
     @NonNull
@@ -36,7 +38,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View contactView = inflater.inflate(R.layout.forcast_layout, parent, false);
-        return new WeatherAdapter.ViewHolder(contactView);
+        return new ViewHolder(contactView);
     }
 
     @Override
@@ -50,7 +52,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
         cal.set(Calendar.MONTH, Integer.parseInt(city.date.split("-")[1]) - 1);
         cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(city.date.split("-")[2]));
         String weekDay;
-        SimpleDateFormat dayFormat = new SimpleDateFormat("E", Locale.US);
+        SimpleDateFormat dayFormat = new SimpleDateFormat(DECODE_DAY, Locale.US);
         weekDay = dayFormat.format(cal.getTime());
         holder.dayOfWeek.setText(weekDay.toUpperCase());
         holder.conditionImage.setImageBitmap(city.dayInformation.condition.bitmap);
@@ -61,7 +63,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
         return weathers.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         TextView dayOfWeek;
         TextView maxTemp;
         TextView minTemp;

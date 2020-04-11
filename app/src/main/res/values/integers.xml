@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="city_task_complete">22</integer>
-    <integer name="weather_task_complete">23</integer>
-    <integer name="city_clicked">24</integer>
     <integer name="search_time_interval">200</integer>
 </resources>

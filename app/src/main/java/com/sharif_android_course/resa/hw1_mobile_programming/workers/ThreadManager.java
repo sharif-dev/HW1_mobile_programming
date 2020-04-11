@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ThreadManager {
+    private static final String IMAGE_PROTOCOL = "https:";
     private final RequestManager requestManager;
     private final Handler handler;
     private Context context;
@@ -59,17 +60,17 @@ public class ThreadManager {
         Thread thread = new Thread(() -> {
             File iconDir = new File(context.getCacheDir(), context.getString(R.string.iconpath));
             if (!iconDir.exists()) {
-                iconDir.mkdir();
+                boolean ignore = iconDir.mkdir();
             }
             synchronized (this.requestManager) {
                 for (int i = 0; i < conditions.size(); i++) {
                     String iconPath = conditions.get(i).icon;
                     if (iconPath.startsWith("//")) {
-                        iconPath = "https:" + iconPath;
+                        iconPath = IMAGE_PROTOCOL + iconPath;
                         conditions.get(i).icon = iconPath;
                     }
                     Bitmap img;
-                    if (iconPath.startsWith("http")) {
+                    if (iconPath.startsWith(IMAGE_PROTOCOL)) {
                         File file = new File(context.getCacheDir(), context.getString(R.string.iconpath) + iconPath.substring(iconPath.lastIndexOf("/")));
                         if (file.exists()) {
                             img = BitmapFactory.decodeFile(file.getPath());
@@ -118,16 +119,24 @@ public class ThreadManager {
     public void readCachedInfo() {
         Thread thread = new Thread(() -> {
             Gson gson = new Gson();
+            String err;
             try {
-                List<String> data;
-                data = Files.readLines(new File(context.getCacheDir(), context.getString(R.string.cache_file_path)), Charset.defaultCharset());
-                String output = TextUtils.join("\n", data);
-                WeatherSearchResult result = gson.fromJson(output, WeatherSearchResult.class);
-                this.prepareWeatherWithImages(result);
+                File file = new File(context.getCacheDir(), context.getString(R.string.cache_file_path));
+                if (!file.exists()) {
+                    err = context.getString(R.string.cache_empty_error);
+                    handler.sendMessage(DataMessage.makeDataMessage(DataMessage.MessageInfo.ERROR_WEATHER, err));
+                } else {
+                    List<String> data;
+                    data = Files.readLines(file, Charset.defaultCharset());
+                    String output = TextUtils.join("\n", data);
+                    WeatherSearchResult result = gson.fromJson(output, WeatherSearchResult.class);
+                    this.prepareWeatherWithImages(result);
+                }
             } catch (IOException e) {
+                err = e.toString();
+                handler.sendMessage(DataMessage.makeDataMessage(DataMessage.MessageInfo.ERROR_WEATHER, err));
                 e.printStackTrace();
             }
-
         });
         thread.start();
     }

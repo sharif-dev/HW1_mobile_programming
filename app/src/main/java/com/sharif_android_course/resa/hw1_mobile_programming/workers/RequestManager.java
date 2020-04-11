@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
-import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -21,13 +20,14 @@ import com.sharif_android_course.resa.hw1_mobile_programming.models.WeatherSearc
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
 public class RequestManager {
 
     private static final String TAG = "RequestManager";
+    private static final String ERROR_HEADER = "Error In Request Sending : \n";
+
     private final RequestQueue queue;
     private final Handler mainHandler;
     private final android.content.Context context;
@@ -38,13 +38,15 @@ public class RequestManager {
         this.mainHandler = mainHandler;
     }
 
-    public static boolean isUserHaveInternet(Context context) {
+    public static boolean isUserOffline(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm == null)
+            return true;
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+        return activeNetwork == null || !activeNetwork.isConnectedOrConnecting();
     }
 
-    public void SendCityRequest(String searchText, String apiToken) {
+    void SendCityRequest(String searchText, String apiToken) {
         String url = this.context.getString(R.string.city_url);
         url = String.format(url, searchText, apiToken);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -54,13 +56,13 @@ public class RequestManager {
                     mainHandler.sendMessage(DataMessage.makeDataMessage(DataMessage.MessageInfo.CITY_TAKS_COMPLETE, searchResult));
                 },
                 error -> {
-                    String err = "Error In Request Sending : \n" + error.getMessage();
+                    String err = ERROR_HEADER + error.toString();
                     mainHandler.sendMessage(DataMessage.makeDataMessage(DataMessage.MessageInfo.ERROR_CITY, err));
                 });
         this.queue.add(jsonObjectRequest);
     }
 
-    public void SendWeatherRequest(String latitude, String longitude, String cityName, String apiToken, int dayNumber) {
+    void SendWeatherRequest(String latitude, String longitude, String cityName, String apiToken, int dayNumber) {
         String url = this.context.getString(R.string.weather_url);
         url = String.format(url, latitude, longitude, apiToken, String.valueOf(dayNumber));
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -71,13 +73,13 @@ public class RequestManager {
                     mainHandler.sendMessage(DataMessage.makeDataMessage(DataMessage.MessageInfo.WEATHER_TASK_COMPLETE, searchResult));
                 },
                 error -> {
-                    String err = "Error In Request Sending : \n" + error.toString();
+                    String err = ERROR_HEADER + error.toString();
                     mainHandler.sendMessage(DataMessage.makeDataMessage(DataMessage.MessageInfo.ERROR_WEATHER, err));
                 });
         this.queue.add(jsonObjectRequest);
     }
 
-    public Bitmap DownloadImageRequest(String url) {
+    Bitmap DownloadImageRequest(String url) {
         InputStream is = null;
         BufferedInputStream bis = null;
         Bitmap bmp = null;
@@ -87,12 +89,8 @@ public class RequestManager {
             is = conn.getInputStream();
             bis = new BufferedInputStream(is);
             bmp = BitmapFactory.decodeStream(bis);
-        } catch (MalformedURLException e) {
-            Log.e(TAG, "Bad ad URL : ", e);
-        } catch (IOException e) {
-            Log.e(TAG, "Could not get remote ad image : ", e);
         } catch (Exception e) {
-            Log.e(TAG, "Other Error : ", e);
+            e.printStackTrace();
         } finally {
             try {
                 if (is != null)
@@ -100,7 +98,7 @@ public class RequestManager {
                 if (bis != null)
                     bis.close();
             } catch (IOException e) {
-                Log.w(TAG, "Error closing stream.");
+                e.printStackTrace();
             }
         }
         return bmp;

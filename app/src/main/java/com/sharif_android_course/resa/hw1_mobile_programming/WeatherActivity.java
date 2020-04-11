@@ -28,16 +28,18 @@ public class WeatherActivity extends AppCompatActivity {
 
     public static final String TAG = "hw1_ActivityWeather";
 
-    private City city;
     private List<DayState> weatherList;
     private WeatherAdapter weatherAdapter;
+
     private ThreadManager threadManager;
+
     private ProgressBar prg;
     private TextView nowTemp;
     private TextView nowConditionText;
     private ImageView nowConditionImage;
     private ViewGroup nowCard;
     private RecyclerView rvWeather;
+    private City city;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,19 +51,18 @@ public class WeatherActivity extends AppCompatActivity {
         threadManager = SharedObjects.getInstance().mainActivity.threadManager;
 
         rvWeather = findViewById(R.id.rvWeather);
+        prg = findViewById(R.id.loading2);
+        nowConditionText = findViewById(R.id.nowConditionText);
+        nowTemp = findViewById(R.id.nowTempText);
+        nowConditionImage = findViewById(R.id.nowConditionImage);
+        nowCard = findViewById(R.id.nowCard);
+
         weatherList = new ArrayList<>();
         weatherAdapter = new WeatherAdapter(weatherList);
         rvWeather.setAdapter(weatherAdapter);
         rvWeather.setLayoutManager(new LinearLayoutManager(this));
 
-        prg = findViewById(R.id.loading2);
-
-        nowConditionText = findViewById(R.id.nowConditionText);
-        nowTemp = findViewById(R.id.nowTempText);
-        nowConditionImage = findViewById(R.id.nowConditionImage);
-        nowCard = findViewById(R.id.nowCard);
         setLoading(true);
-
 
         Intent myIntent = getIntent();
         String cityinfo = myIntent.getStringExtra(MainActivity.EXTRA_MESSAGE);
@@ -72,12 +73,15 @@ public class WeatherActivity extends AppCompatActivity {
         } else {
             threadManager.readCachedInfo();
         }
-
-
     }
 
 
-    public void imageReceived(WeatherSearchResult data) {
+    public void broadcastSearchResult(WeatherSearchResult searchResult) {
+        threadManager.cacheWeatherInfos(searchResult);
+        threadManager.prepareWeatherWithImages(searchResult);
+    }
+
+    public void broadcastSearchResultWithImages(WeatherSearchResult data) {
         weatherList.clear();
         weatherAdapter.notifyDataSetChanged();
         for (DayState state : data.weatherForecast.forecastDay) {
@@ -93,22 +97,15 @@ public class WeatherActivity extends AppCompatActivity {
         setLoading(false);
     }
 
-    public void broadcastSearchResult(WeatherSearchResult searchResult) {
-        threadManager.cacheWeatherInfos(searchResult);
-        threadManager.prepareWeatherWithImages(searchResult);
-    }
-
     public void showErrorToUser(String text) {
-        if (!RequestManager.isUserHaveInternet(this)) {
-            text = "You dont have internet connection!";
+        if (RequestManager.isUserOffline(this) && city != null) {
+            text = getString(R.string.no_internet_error);
         }
         new AlertDialog.Builder(WeatherActivity.this)
-                .setTitle("ERROR in Weather Request")
+                .setTitle(R.string.weather_search_error)
                 .setMessage(text)
                 .setCancelable(false)
-                .setPositiveButton("ok", (dialog, which) -> {
-                    finish();
-                }).show();
+                .setPositiveButton(R.string.ok, (dialog, which) -> finishAffinity()).show();
     }
 
     void setLoading(boolean loading) {

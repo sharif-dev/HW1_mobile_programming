@@ -36,24 +36,20 @@ import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String TAG = "hw1_ActivityMain";
-    public static final String EXTRA_MESSAGE = "MESSAGE_HW1_KEY";
+    private static final String TAG = "hw1_ActivityMain";
+    public static final String EXTRA_MESSAGE = "INTENT_MESSAGE_HW1_KEY";
 
+    public Handler cityHandler;
     public ThreadManager threadManager;
+
     public List<City> cityList;
     public CitiesAdapter citiesAdapter;
+    private RecyclerView rvCities;
 
-    private Handler cityHandler;
     private ScheduledExecutorService searchExecutor = null;
     private ScheduledFuture scheduledSeacrh = null;
     private TextInputLayout citySearch;
     private ProgressBar prg;
-    private RecyclerView rvCities;
-
-    public static void printThreadInfo(String text) {
-        Log.i(TAG, text + " \t\tExecuting in --> " + " tid : " + android.os.Process.myTid()
-        );
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,22 +59,21 @@ public class MainActivity extends AppCompatActivity {
         SharedObjects.getInstance().mainActivity = this;
 
         cityHandler = new MainHandler(Looper.getMainLooper());
+        threadManager = new ThreadManager(cityHandler, this);
 
-        threadManager = new ThreadManager(getCityHandler(), this);
-
-
-        printThreadInfo("main");
+        printThreadInfo(this.getLocalClassName());
 
         rvCities = findViewById(R.id.rvCities);
+        prg = findViewById(R.id.loading);
+        citySearch = findViewById(R.id.citySearchLayout);
+
         cityList = new ArrayList<>();
-        citiesAdapter = new CitiesAdapter(cityList, getCityHandler());
+        citiesAdapter = new CitiesAdapter(cityList, cityHandler);
         rvCities.setAdapter(citiesAdapter);
         rvCities.setLayoutManager(new LinearLayoutManager(this));
 
-        prg = findViewById(R.id.loading);
         setLoading(false);
 
-        citySearch = findViewById(R.id.citySearchLayout);
         Objects.requireNonNull(citySearch.getEditText()).addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -100,13 +95,9 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
         citySearch.getEditText().setText(SharedObjects.getInstance().lastCitySearch);
 
         checkIntenetConnectivity();
-
-
-        printThreadInfo("ssfsfsfs");
     }
 
     @Override
@@ -116,8 +107,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkIntenetConnectivity() {
-        if (!RequestManager.isUserHaveInternet(this)) {
-            Toast toast = Toast.makeText(getApplicationContext(), "You dont have internet connection!", Toast.LENGTH_SHORT);
+        if (RequestManager.isUserOffline(this)) {
+            Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.no_internet_error), Toast.LENGTH_SHORT);
             toast.show();
             goNextForm(null);
         }
@@ -139,40 +130,13 @@ public class MainActivity extends AppCompatActivity {
                 this.scheduledSeacrh.cancel(false);
         }
 
-        Runnable task = () -> {
-            ///MainActivity.this.startCitySearch();
-            getCityHandler().sendMessage(DataMessage.makeDataMessage(DataMessage.MessageInfo.START_SEARCH, null));
-        };
+        Runnable task = () -> MainActivity.this.startCitySearch(cityName);
         this.scheduledSeacrh = searchExecutor.schedule(task, interval, TimeUnit.MILLISECONDS);
     }
 
-    public void showErrorToUser(String text) {
-        if (!RequestManager.isUserHaveInternet(this)) {
-            text = "You dont have internet connection!";
-        }
-        new AlertDialog.Builder(MainActivity.this)
-                .setTitle("ERROR in City Search")
-                .setMessage(text)
-                .setCancelable(false)
-                .setPositiveButton("ok", null).show();
-        setLoading(false);
-    }
-
-    public Handler getCityHandler() {
-        return cityHandler;
-    }
-
-    public String getSearchTextStr() {
-        return Objects.requireNonNull(citySearch.getEditText()).getText().toString();
-    }
-
-    void setLoading(boolean loading) {
-        if (loading) {
-            prg.setVisibility(View.VISIBLE);
-            rvCities.setVisibility(View.INVISIBLE);
-        } else {
-            prg.setVisibility(View.INVISIBLE);
-            rvCities.setVisibility(View.VISIBLE);
+    public void startCitySearch(String city) {
+        if (!city.equals("")) {
+            threadManager.ExecuteCityRequest(city, getString(R.string.city_token));
         }
     }
 
@@ -193,11 +157,35 @@ public class MainActivity extends AppCompatActivity {
         SharedObjects.getInstance().lastCitySearch = getSearchTextStr();
     }
 
-    public void startCitySearch() {
-        String city = getSearchTextStr();
-        if (!city.equals("")) {
-            threadManager.ExecuteCityRequest(city, getString(R.string.city_token));
+    public void showErrorToUser(String text) {
+        if (RequestManager.isUserOffline(this)) {
+            text = getString(R.string.no_internet_error);
         }
+        new AlertDialog.Builder(MainActivity.this)
+                .setTitle(R.string.city_search_error)
+                .setMessage(text)
+                .setCancelable(false)
+                .setPositiveButton(R.string.ok, null).show();
+        setLoading(false);
+    }
+
+
+    void setLoading(boolean loading) {
+        if (loading) {
+            prg.setVisibility(View.VISIBLE);
+            rvCities.setVisibility(View.INVISIBLE);
+        } else {
+            prg.setVisibility(View.INVISIBLE);
+            rvCities.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public String getSearchTextStr() {
+        return Objects.requireNonNull(citySearch.getEditText()).getText().toString();
+    }
+
+    public static void printThreadInfo(String text) {
+        Log.i(TAG, text + " \t\tExecuting in --> " + " tid : " + android.os.Process.myTid());
     }
 
 
